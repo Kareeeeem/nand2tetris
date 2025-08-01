@@ -7,9 +7,8 @@
 // i.e. writes "black" in every pixel. When no key is pressed,
 // the screen should be cleared.
 
-// Starts filling the screen when a key is pressed, after each draw cycle it
-// checks if a key is still pressed, if not jumps to he clear loop, and vice
-// versa.
+// Fills the whole screen when a key is pressed, starts listening to clear it
+// afterwards
 
 // INIT the @start, @i, and @end variables
     @SCREEN
@@ -31,16 +30,10 @@
     @LISTEN
     D;JEQ  // jmp if keyboard input == 0
 
-(DRAWLOOP)
+    (DRAWLOOP)
     @i
     A=M
     M=-1
-
-    @KBD
-    D=M
-    @CLEARLOOP
-    D;JEQ  // jmp if keyboard input != 0
-
     @i
     DM=M+1
     @end
@@ -58,12 +51,6 @@
     @i
     A=M
     M=0
-
-    @KBD
-    D=M
-    @DRAWLOOP
-    D;JNE  // jmp if keyboard input != 0
-
     @i
     DM=M-1
     @start
