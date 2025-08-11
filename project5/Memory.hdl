@@ -24,18 +24,13 @@ CHIP Memory {
     OUT out[16];
 
     PARTS:
-    // 00 screen
-    // 01 screen
-    // 10 screen
-    // 11 keyboard
-    DMux(in=load, sel=address[14], a=ram16k, b=io);
-    RAM16K(in=in, load=ram16k, address=address[0..13], out=ram16o);
+    DMux(in=load, sel=address[14], a=lram, b=lio);
+    RAM16K(in=in, load=lram, address=address[0..13], out=ramo);
 
-    DMux(in=load, sel=address[13], a=screen, b=kb);
-    Screen(in=in, load=screen, address=address[0..12], out=screeno);
+    DMux(in=lio, sel=address[13], a=lscreen);
+    Screen(in=in, load=lscreen, address=address[0..12], out=screeno);
     Keyboard(out=kbo);
 
-    Mux16(a=screeno, b=kbo, sel=address[14], out=ioo);
-    Mux16(a=ram16o, b=ioo, sel=address[14], out=out);
-
+    Mux16(a=screeno, b=kbo, sel=address[13], out=ioo);
+    Mux16(a=ramo, b=ioo, sel=address[14], out=out);
 }
